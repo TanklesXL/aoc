@@ -59,11 +59,15 @@ pub fn pt_2(input: String) -> Int {
 }
 
 fn accumulate_jolts(options: Map(Int, Int), target_jolts: Int) -> Map(Int, Int) {
-  map.insert(options, target_jolts, list.fold([1, 2, 3], 0, fn(acc, diff) {
-    acc + {
-      options
-      |> map.get(target_jolts - diff)
-      |> result.unwrap(0)
-    }
-  }))
+  map.insert(
+    options,
+    target_jolts,
+    list.fold([1, 2, 3], 0, fn(acc, diff) {
+      acc + {
+        options
+        |> map.get(target_jolts - diff)
+        |> result.unwrap(0)
+      }
+    }),
+  )
 }

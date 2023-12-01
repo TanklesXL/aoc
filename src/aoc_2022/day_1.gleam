@@ -7,10 +7,9 @@ fn parse(input: String) -> List(List(Int)) {
   let assert Ok(input) =
     input
     |> string.split("\n\n")
-    |> list.try_map(function.compose(string.split(_, "\n"), list.try_map(
-      _,
-      int.parse,
-    )))
+    |> list.try_map(
+      function.compose(string.split(_, "\n"), list.try_map(_, int.parse)),
+    )
   input
 }
 

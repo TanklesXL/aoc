@@ -198,9 +198,13 @@ fn do_swap(seats: Seats, pos: Pos) -> Seats {
   let assert Ok(row) = map.get(seats, pos.row)
   let assert Ok(spot) = map.get(row, pos.col)
 
-  map.insert(seats, pos.row, map.insert(row, pos.col, case spot {
-    EmptySeat -> FullSeat
-    FullSeat -> EmptySeat
-    _ -> panic
-  }))
+  map.insert(
+    seats,
+    pos.row,
+    map.insert(row, pos.col, case spot {
+      EmptySeat -> FullSeat
+      FullSeat -> EmptySeat
+      _ -> panic
+    }),
+  )
 }
