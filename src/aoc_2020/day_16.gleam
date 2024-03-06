@@ -4,11 +4,24 @@ import gleam/list
 import gleam/bool
 import gleam/pair
 import gleam/set.{type Set}
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/iterator
 
-pub fn pt_1(input: String) -> Int {
-  let #(rules, _your_ticket, other_tickets) = pre_process(input)
+pub fn parse(input: String) -> #(Rules, Ticket, List(Ticket)) {
+  let assert [prelude, your_ticket, nearby_tickets] =
+    string.split(input, "\n\n")
+  let rules = parse_rules(prelude)
+  let assert [_, your_ticket] = string.split(your_ticket, "\n")
+  let your_ticket = parse_ticket_line(your_ticket)
+
+  let assert [_, ..nearby_tickets] = string.split(nearby_tickets, "\n")
+  let nearby_tickets = list.map(nearby_tickets, parse_ticket_line)
+
+  #(rules, your_ticket, nearby_tickets)
+}
+
+pub fn pt_1(input: #(Rules, Ticket, List(Ticket))) -> Int {
+  let #(rules, _your_ticket, other_tickets) = input
 
   other_tickets
   |> iterator.from_list
@@ -24,8 +37,8 @@ pub fn pt_1(input: String) -> Int {
   })
 }
 
-pub fn pt_2(input: String) -> Int {
-  let #(rules, your_ticket, other_tickets) = pre_process(input)
+pub fn pt_2(input: #(Rules, Ticket, List(Ticket))) -> Int {
+  let #(rules, your_ticket, other_tickets) = input
 
   let lists_and_matches = only_valid_tickets(other_tickets, rules)
 
@@ -43,32 +56,19 @@ pub fn pt_2(input: String) -> Int {
   })
 }
 
-type Ticket =
+pub type Ticket =
   List(Int)
 
-type Range {
+pub type Range {
   Range(min: Int, max: Int)
 }
 
-type Ranges {
+pub type Ranges {
   Ranges(lower: Range, upper: Range)
 }
 
-type Rules =
+pub type Rules =
   Map(String, Ranges)
-
-fn pre_process(input: String) -> #(Rules, Ticket, List(Ticket)) {
-  let assert [prelude, your_ticket, nearby_tickets] =
-    string.split(input, "\n\n")
-  let rules = parse_rules(prelude)
-  let assert [_, your_ticket] = string.split(your_ticket, "\n")
-  let your_ticket = parse_ticket_line(your_ticket)
-
-  let assert [_, ..nearby_tickets] = string.split(nearby_tickets, "\n")
-  let nearby_tickets = list.map(nearby_tickets, parse_ticket_line)
-
-  #(rules, your_ticket, nearby_tickets)
-}
 
 fn parse_rules(rules: String) -> Rules {
   rules
@@ -140,7 +140,8 @@ fn match_nums_with_rules(ticket: Ticket, rules: Rules) -> RulesSatisfied {
 fn is_invalid(satisfied: RulesSatisfied) -> Bool {
   satisfied
   |> map.filter(fn(_, rule_names) { set.size(rule_names) == 0 })
-  |> map.size() != 0
+  |> map.size()
+  != 0
 }
 
 const rule_names = [

@@ -1,35 +1,33 @@
 import gleam/int
 import gleam/list
 import gleam/string
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 
-pub fn pt_1(input: String) -> Int {
+pub fn parse(input: String) -> List(Masking) {
+  let assert [_, ..data] = string.split(input, "mask = ")
+  list.map(data, new_masking)
+}
+
+pub fn pt_1(input: List(Masking)) -> Int {
   input
-  |> pre_process()
   |> list.fold(map.new(), apply_value_mask)
   |> map.values()
   |> int.sum()
 }
 
-pub fn pt_2(input: String) -> Int {
+pub fn pt_2(input: List(Masking)) -> Int {
   input
-  |> pre_process()
   |> list.fold(map.new(), apply_address_mask)
   |> map.values()
   |> int.sum()
 }
 
-type Address {
+pub type Address {
   Address(location: Int, value: Int)
 }
 
-type Masking {
+pub type Masking {
   Masking(mask: String, addresses: List(Address))
-}
-
-fn pre_process(input: String) -> List(Masking) {
-  let assert [_, ..data] = string.split(input, "mask = ")
-  list.map(data, new_masking)
 }
 
 fn new_masking(input: String) -> Masking {

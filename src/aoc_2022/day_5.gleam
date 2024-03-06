@@ -1,14 +1,14 @@
 import gleam/string
 import gleam/list
 import gleam/int
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/option.{Some}
 import gleam/function.{compose as c}
 import gleam/pair
 import gleam/result
 import gleam/iterator.{type Iterator}
 
-fn parse(input: String) -> #(Map(Int, List(String)), Iterator(Move)) {
+pub fn parse(input: String) -> #(Map(Int, List(String)), Iterator(Move)) {
   let assert Ok(#(stacks, moves)) = string.split_once(input, "\n\n")
   #(parse_stacks(stacks), parse_moves(moves))
 }
@@ -35,7 +35,7 @@ fn parse_stacks(stacks: String) -> Map(Int, List(String)) {
   map.insert(acc, buckets.0, list.reverse(buckets.1))
 }
 
-type Move {
+pub type Move {
   Move(count: Int, from: Int, to: Int)
 }
 
@@ -54,7 +54,7 @@ fn parse_moves(moves: String) -> Iterator(Move) {
 }
 
 fn solve(input, f) {
-  let #(stacks, moves) = parse(input)
+  let #(stacks, moves) = input
   let assert Ok(firsts) =
     iterator.fold(moves, stacks, f)
     |> map.to_list()
@@ -71,7 +71,7 @@ fn repeatedly(with start: a, num times: Int, do f: fn(a) -> a) -> a {
   }
 }
 
-pub fn pt_1(input: String) {
+pub fn pt_1(input: #(Map(Int, List(String)), Iterator(Move))) {
   use stacks, move <- solve(input)
   use stacks <- repeatedly(with: stacks, num: move.count)
   let assert Ok([val, ..rest]) = map.get(stacks, move.from)
@@ -81,7 +81,7 @@ pub fn pt_1(input: String) {
   [val, ..stack]
 }
 
-pub fn pt_2(input: String) {
+pub fn pt_2(input: #(Map(Int, List(String)), Iterator(Move))) {
   use stacks, move <- solve(input)
   let assert Ok(#(top, rest)) =
     stacks

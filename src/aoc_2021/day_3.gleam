@@ -13,7 +13,7 @@ fn to_list(a: Array(a)) -> List(a)
 @external(erlang, "array", "get")
 fn get(i: Int, a: Array(a)) -> a
 
-fn process_input(input: String) -> List(List(Int)) {
+pub fn parse(input: String) -> List(List(Int)) {
   let assert Ok(input) =
     input
     |> string.split("\n")
@@ -23,9 +23,7 @@ fn process_input(input: String) -> List(List(Int)) {
   input
 }
 
-pub fn pt_1(input: String) -> Int {
-  let input = process_input(input)
-
+pub fn pt_1(input: List(List(Int))) -> Int {
   let gamma_list =
     input
     |> list.transpose()
@@ -43,7 +41,8 @@ pub fn pt_1(input: String) -> Int {
 
 fn most_common_bit(l: List(Int)) -> Int {
   list.fold(l, 1, fn(acc, elem) {
-    acc + case elem {
+    acc
+    + case elem {
       1 -> 1
       0 -> -1
       _ -> panic
@@ -78,8 +77,8 @@ fn sieve(
   }
 }
 
-pub fn pt_2(input: String) -> Int {
-  let input = list.map(process_input(input), from_list)
+pub fn pt_2(input: List(List(Int))) -> Int {
+  let input = list.map(input, from_list)
 
   let assert Ok(oxygen) = sieve(input, 0, most_common_bit)
   let assert Ok(oxygen) = int.undigits(oxygen, 2)

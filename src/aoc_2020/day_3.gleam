@@ -1,15 +1,26 @@
 import gleam/list
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/result
 import gleam/string
 import gleam/int
 
+pub fn parse(input: String) -> Map(Int, Map(Int, String)) {
+  input
+  |> string.split(on: "\n")
+  |> list.index_map(fn(row, i) { #(i, string.to_graphemes(row)) })
+  |> map.from_list()
+  |> map.map_values(fn(_, row) {
+    list.range(0, list.length(row))
+    |> list.zip(row)
+    |> map.from_list()
+  })
+}
+
 const pt_1_slope = Slope(right: 3, down: 1)
 
-pub fn pt_1(input: String) -> Int {
-  input
-  |> pre_process()
-  |> count_trees(
+pub fn pt_1(input: Map(Int, Map(Int, String))) -> Int {
+  count_trees(
+    in: input,
     from: Pos(row_i: 0, column_i: 0),
     along: pt_1_slope,
     with_acc: 0,
@@ -24,29 +35,15 @@ const pt_2_slopes = [
   Slope(right: 1, down: 2),
 ]
 
-pub fn pt_2(input: String) -> Int {
-  let count = count_trees(
-    in: pre_process(input),
+pub fn pt_2(input: Map(Int, Map(Int, String))) -> Int {
+  count_trees(
+    in: input,
     from: Pos(row_i: 0, column_i: 0),
     along: _,
     with_acc: 0,
   )
-
-  pt_2_slopes
-  |> list.map(count)
+  |> list.map(pt_2_slopes, _)
   |> int.product()
-}
-
-fn pre_process(input: String) -> Map(Int, Map(Int, String)) {
-  input
-  |> string.split(on: "\n")
-  |> list.index_map(fn(i, row) { #(i, string.to_graphemes(row)) })
-  |> map.from_list()
-  |> map.map_values(fn(_, row) {
-    list.range(0, list.length(row))
-    |> list.zip(row)
-    |> map.from_list()
-  })
 }
 
 type Slope {

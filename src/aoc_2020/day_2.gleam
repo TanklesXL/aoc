@@ -3,16 +3,18 @@ import gleam/list
 import gleam/result
 import gleam/string
 
-pub fn pt_1(input: String) -> Int {
+pub fn parse(input: String) -> List(String) {
+  string.split(input, "\n")
+}
+
+pub fn pt_1(input: List(String)) -> Int {
   input
-  |> string.split("\n")
   |> list.filter(satisfactory(_, is_valid_sled_policy))
   |> list.length()
 }
 
-pub fn pt_2(input: String) -> Int {
+pub fn pt_2(input: List(String)) -> Int {
   input
-  |> string.split("\n")
   |> list.filter(satisfactory(_, is_valid_toboggan_policy))
   |> list.length()
 }

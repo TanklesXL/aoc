@@ -1,23 +1,23 @@
 import gleam/string
 import gleam/list
 import gleam/int
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/option
 import gleam/result
 
 // represent filesystem data
-type FS {
+pub type FS {
   Dir(name: String)
   File(size: Int, name: String)
 }
 
 // represent a command and any output
-type Command {
+pub type Command {
   Cd(input: String)
   Ls(output: List(FS))
 }
 
-fn parse(input: String) -> List(Command) {
+pub fn parse(input: String) -> List(Command) {
   input
   |> string.split("$")
   |> list.filter_map(parse_cmd)
@@ -59,10 +59,11 @@ fn dir_sizes(l: List(#(List(String), List(FS)))) {
   use tree, fs <- list.fold(elem.1, tree)
   use size <- map.update(tree, elem.0)
   let cum_size = option.unwrap(size, 0)
-  cum_size + case fs {
+  cum_size
+  + case fs {
     File(size: fs_size, ..) -> fs_size
     Dir(subdir) -> {
-      // due to the above sorting subdirectories MUST already have been seen 
+      // due to the above sorting subdirectories MUST already have been seen
       // and will therefore have a size already determined
       let assert Ok(subdir_size) = map.get(tree, [subdir, ..elem.0])
       subdir_size
@@ -70,7 +71,7 @@ fn dir_sizes(l: List(#(List(String), List(FS)))) {
   }
 }
 
-// figure out the resulting path of a given command 
+// figure out the resulting path of a given command
 fn path(from current_path: List(String), do command: Command) -> List(String) {
   case command {
     Cd("/") -> []
@@ -83,10 +84,7 @@ fn path(from current_path: List(String), do command: Command) -> List(String) {
   }
 }
 
-fn solve(input: String, f: fn(Map(List(String), Int)) -> Int) -> Int {
-  // create the list of commands and their outputs
-  let commands = parse(input)
-
+fn solve(commands: List(Command), f: fn(Map(List(String), Int)) -> Int) -> Int {
   commands
   // generate the directory paths of each command
   |> list.scan([], path)
@@ -104,7 +102,7 @@ fn solve(input: String, f: fn(Map(List(String), Int)) -> Int) -> Int {
   |> f
 }
 
-pub fn pt_1(input: String) {
+pub fn pt_1(input: List(Command)) {
   use sizes <- solve(input)
   use acc, _, size <- map.fold(over: sizes, from: 0)
   case size <= 100_000 {
@@ -113,7 +111,7 @@ pub fn pt_1(input: String) {
   }
 }
 
-pub fn pt_2(input: String) {
+pub fn pt_2(input: List(Command)) {
   use sizes <- solve(input)
   let assert Ok(total) = map.get(sizes, [])
 

@@ -1,42 +1,41 @@
 import gleam/iterator
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/list
 import gleam/pair
 import gleam/option
 import gleam/string
 import gleam/int
 
+pub fn parse(input: String) -> #(Int, Map(Int, Spoken)) {
+  let assert Ok(input) =
+    input
+    |> string.split(",")
+    |> list.try_map(int.parse)
+
+  let assert Ok(seed) = list.last(input)
+
+  #(seed, init(input))
+}
+
 const steps_1 = 2020
 
 const steps_2 = 30_000_000
 
-pub fn pt_1(input: String) -> Int {
-  let assert Ok(input) =
-    input
-    |> string.split(",")
-    |> list.try_map(int.parse)
+pub fn pt_1(input: #(Int, map.Dict(Int, Spoken))) -> Int {
   execute(input, steps_1)
 }
 
-pub fn pt_2(input: String) -> Int {
-  let assert Ok(input) =
-    input
-    |> string.split(",")
-    |> list.try_map(int.parse)
+pub fn pt_2(input: #(Int, map.Dict(Int, Spoken))) -> Int {
   execute(input, steps_2)
 }
 
-fn execute(input: List(Int), iterations: Int) -> Int {
-  let starting = init(input)
-  let assert Ok(last_inserted) = list.last(input)
-  let starting_acc = #(last_inserted, starting)
-
-  iterator.range(list.length(input) + 1, iterations)
-  |> iterator.fold(starting_acc, speak)
+fn execute(input: #(Int, map.Dict(Int, Spoken)), iterations: Int) -> Int {
+  iterator.range(map.size(input.1) + 1, iterations)
+  |> iterator.fold(input, speak)
   |> pair.first()
 }
 
-type Spoken {
+pub type Spoken {
   Never
   Once(first: Int)
   Multiple(last: Int, second_last: Int)

@@ -1,4 +1,4 @@
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/list
 import gleam/int
 import gleam/set.{type Set}
@@ -6,28 +6,7 @@ import gleam/bool
 import gleam/iterator
 import gleam/string
 
-const goal_bag = "shiny gold"
-
-pub fn pt_1(input: String) -> Int {
-  input
-  |> pre_process()
-  |> how_many_can_hold_goal(goal_bag)
-}
-
-pub fn pt_2(input: String) -> Int {
-  let bags = pre_process(input)
-  let assert Ok(contents_of_goal_bag) = map.get(bags, goal_bag)
-  sum_with_inside(bags, contents_of_goal_bag)
-}
-
-type Capacity {
-  Capacity(name: String, amount: Int)
-}
-
-type Bags =
-  Map(String, List(Capacity))
-
-fn pre_process(input: String) -> Bags {
+pub fn parse(input: String) -> Bags {
   input
   |> string.split("\n")
   |> iterator.from_list()
@@ -42,6 +21,24 @@ fn pre_process(input: String) -> Bags {
   |> iterator.to_list()
   |> map.from_list()
 }
+
+const goal_bag = "shiny gold"
+
+pub fn pt_1(input: Bags) -> Int {
+  how_many_can_hold_goal(input, goal_bag)
+}
+
+pub fn pt_2(input: Bags) -> Int {
+  let assert Ok(contents_of_goal_bag) = map.get(input, goal_bag)
+  sum_with_inside(input, contents_of_goal_bag)
+}
+
+pub type Capacity {
+  Capacity(name: String, amount: Int)
+}
+
+pub type Bags =
+  Map(String, List(Capacity))
 
 fn parse_capacity(capacities: String) -> List(Capacity) {
   case capacities {
@@ -70,9 +67,8 @@ fn can_hold(in bags: Bags, already_seen seen: Set(String)) -> Set(String) {
   let new =
     bags
     |> map.filter(fn(name, capacities) {
-      bool.negate(set.contains(seen, name)) && list.any(capacities, fn(
-        capacity: Capacity,
-      ) {
+      bool.negate(set.contains(seen, name))
+      && list.any(capacities, fn(capacity: Capacity) {
         set.contains(seen, capacity.name)
       })
     })

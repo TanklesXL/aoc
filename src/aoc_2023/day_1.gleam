@@ -20,7 +20,8 @@ fn process(input: String, pre_process: fn(String) -> List(String)) {
   input
   |> string.split("\n")
   |> list.fold(0, fn(acc, line) {
-    acc + {
+    acc
+    + {
       line
       |> pre_process
       |> list.filter_map(int.parse)

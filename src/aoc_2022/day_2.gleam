@@ -17,7 +17,7 @@ pub type RPS {
   Scissors
 }
 
-/// convert independent moves 
+/// convert independent moves
 fn play_to_rps(s: String) {
   case s {
     "A" | "X" -> Rock
@@ -37,7 +37,8 @@ fn score(plays: #(RPS, RPS)) {
     // win
     Paper, Scissors | Scissors, Rock | Rock, Paper -> 6
     _, _ -> panic
-  } + // score the hand I played
+  }
+  + // score the hand I played
   case plays.1 {
     Rock -> 1
     Paper -> 2
@@ -45,13 +46,17 @@ fn score(plays: #(RPS, RPS)) {
   }
 }
 
-/// parse the input and play all hands, calculate the final score 
-fn solve(input, f) {
+pub fn parse(input: String) -> List(#(String, String)) {
   let assert Ok(games) =
     input
     |> string.split("\n")
     |> list.try_map(string.split_once(_, on: " "))
 
+  games
+}
+
+/// parse the input and play all hands, calculate the final score
+fn solve(games, f) {
   games
   |> list.map(fn(tup) {
     let tup = pair.map_first(tup, play_to_rps)
@@ -61,7 +66,7 @@ fn solve(input, f) {
 }
 
 /// pt_1 solves both plays independently
-pub fn pt_1(input: String) {
+pub fn pt_1(input: List(#(String, String))) {
   use _, s <- solve(input)
   play_to_rps(s)
 }
@@ -91,7 +96,7 @@ fn shift(s) {
 }
 
 /// pt_2 solves my play as dependent of the opponent's
-pub fn pt_2(input: String) {
+pub fn pt_2(input: List(#(String, String))) {
   use play, s <- solve(input)
   s
   |> shift

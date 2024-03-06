@@ -3,7 +3,7 @@ import gleam/list
 import gleam/int
 import gleam/function
 
-fn parse(input: String) -> List(List(Int)) {
+pub fn parse(input: String) -> List(List(Int)) {
   let assert Ok(input) =
     input
     |> string.split("\n\n")
@@ -13,15 +13,13 @@ fn parse(input: String) -> List(List(Int)) {
   input
 }
 
-pub fn pt_1(input: String) {
+pub fn pt_1(input: List(List(Int))) {
   input
-  |> parse
   |> calories(top: 1)
 }
 
-pub fn pt_2(input: String) {
+pub fn pt_2(input: List(List(Int))) {
   input
-  |> parse
   |> calories(top: 3)
 }
 

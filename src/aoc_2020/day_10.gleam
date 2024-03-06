@@ -1,19 +1,21 @@
 import gleam/list
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/int
 import gleam/result
 import gleam/string
 
-pub fn pt_1(input: String) -> Int {
-  let assert Ok(input) =
+pub fn parse(input: String) -> List(Int) {
+  let assert Ok(out) =
     input
     |> string.split("\n")
     |> list.try_map(int.parse)
+    |> result.map(setup)
 
-  let counts =
-    input
-    |> setup()
-    |> deltas(0, [])
+  out
+}
+
+pub fn pt_1(input: List(Int)) -> Int {
+  let counts = deltas(input, 0, [])
 
   let singles =
     list.filter(counts, fn(x) { x == 1 })
@@ -43,13 +45,7 @@ fn deltas(l: List(Int), last: Int, acc: List(Int)) -> List(Int) {
   }
 }
 
-pub fn pt_2(input: String) -> Int {
-  let assert Ok(input) =
-    input
-    |> string.split("\n")
-    |> list.try_map(int.parse)
-  let input = setup(input)
-
+pub fn pt_2(input: List(Int)) -> Int {
   let assert Ok(output) =
     input
     |> list.fold(map.from_list([#(0, 1)]), accumulate_jolts)
@@ -63,7 +59,8 @@ fn accumulate_jolts(options: Map(Int, Int), target_jolts: Int) -> Map(Int, Int) 
     options,
     target_jolts,
     list.fold([1, 2, 3], 0, fn(acc, diff) {
-      acc + {
+      acc
+      + {
         options
         |> map.get(target_jolts - diff)
         |> result.unwrap(0)

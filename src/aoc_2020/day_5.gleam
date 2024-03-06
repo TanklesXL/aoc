@@ -3,31 +3,28 @@ import gleam/list
 import gleam/result
 import gleam/string
 
-pub fn pt_1(input: String) -> Int {
-  let ids = sorted_ids(input)
-
-  list.at(ids, list.length(ids) - 1)
-  |> result.unwrap(0)
-}
-
-pub fn pt_2(input: String) -> Int {
-  input
-  |> sorted_ids()
-  |> find_missing()
-}
-
-fn sorted_ids(input: String) -> List(Int) {
+pub fn parse(input: String) -> List(Int) {
   input
   |> string.split("\n")
   |> list.map(calculate_seat_id)
   |> list.sort(int.compare)
 }
 
+pub fn pt_1(input: List(Int)) -> Int {
+  list.at(input, list.length(input) - 1)
+  |> result.unwrap(0)
+}
+
+pub fn pt_2(input: List(Int)) -> Int {
+  input
+  |> find_missing()
+}
+
 fn calculate_seat_id(ticket: String) -> Int {
   ticket
   |> string.to_graphemes()
   |> list.reverse()
-  |> list.index_map(fn(i, val) {
+  |> list.index_map(fn(val, i) {
     case val {
       "L" | "F" -> 0
       "R" | "B" -> int.bitwise_shift_left(1, i)

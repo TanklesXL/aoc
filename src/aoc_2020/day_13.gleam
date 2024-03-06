@@ -40,7 +40,7 @@ pub fn pt_2(input: String) -> Int {
 
   buses
   |> string.split(",")
-  |> list.index_map(fn(i, s) { #(i, s) })
+  |> list.index_map(fn(s, i) { #(i, s) })
   |> list.filter_map(fn(p) {
     let #(offset, id) = p
     use id <- result.try(int.parse(id))
@@ -80,5 +80,6 @@ fn find_min(buses: List(Bus)) -> Int {
   list.fold(buses, 0, fn(acc: Int, bus: Bus) {
     let pp = prod / bus.id
     acc + bus.offset * invmod(pp, bus.id) * pp
-  }) % prod
+  })
+  % prod
 }

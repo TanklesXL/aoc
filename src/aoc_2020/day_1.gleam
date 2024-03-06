@@ -4,7 +4,7 @@ import gleam/list
 
 const sum = 2020
 
-fn process_input(input: String) -> List(Int) {
+pub fn parse(input: String) -> List(Int) {
   let assert Ok(input) =
     input
     |> string.split("\n")
@@ -12,8 +12,7 @@ fn process_input(input: String) -> List(Int) {
   input
 }
 
-pub fn pt_1(input: String) -> Int {
-  let input = process_input(input)
+pub fn pt_1(input: List(Int)) -> Int {
   let assert Ok(#(a, b)) =
     input
     |> list.combination_pairs()
@@ -25,9 +24,7 @@ pub fn pt_1(input: String) -> Int {
   a * b
 }
 
-pub fn pt_2(input: String) -> Int {
-  let input = process_input(input)
-
+pub fn pt_2(input: List(Int)) -> Int {
   let assert Ok(#(a, b, c)) =
     input
     |> list.combinations(by: 3)

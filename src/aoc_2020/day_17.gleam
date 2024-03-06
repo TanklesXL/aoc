@@ -2,22 +2,30 @@ import gleam/string
 import gleam/list
 import gleam/iterator.{type Iterator}
 import gleam/set
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/option
+
+pub fn parse(input: String) -> Space {
+  use acc, row, i <- list.index_fold(string.split(input, "\n"), map.new())
+  use acc, space, j <- list.index_fold(string.to_graphemes(row), acc)
+  map.insert(acc, Pos(row: i, col: j, depth: 0, time: 0), case space {
+    "." -> Inactive
+    "#" -> Active
+    _ -> panic
+  })
+}
 
 const num_steps = 6
 
-pub fn pt_1(input: String) -> Int {
+pub fn pt_1(input: Space) -> Int {
   execute(input, 3)
 }
 
-pub fn pt_2(input: String) -> Int {
+pub fn pt_2(input: Space) -> Int {
   execute(input, 4)
 }
 
-fn execute(input: String, dimensions: Int) -> Int {
-  let space = pre_process(input)
-
+fn execute(space: Space, dimensions: Int) -> Int {
   fn() { Nil }
   |> iterator.repeatedly()
   |> iterator.take(num_steps)
@@ -28,35 +36,17 @@ fn execute(input: String, dimensions: Int) -> Int {
   |> map.size()
 }
 
-type Cube {
+pub type Cube {
   Active
   Inactive
 }
 
-type Pos {
+pub type Pos {
   Pos(row: Int, col: Int, depth: Int, time: Int)
 }
 
-type Space =
+pub type Space =
   Map(Pos, Cube)
-
-fn pre_process(input: String) -> Space {
-  input
-  |> string.split("\n")
-  |> list.index_map(fn(i, row) {
-    use j, space <- list.index_map(string.to_graphemes(row))
-    #(
-      Pos(row: i, col: j, depth: 0, time: 0),
-      case space {
-        "." -> Inactive
-        "#" -> Active
-        _ -> panic
-      },
-    )
-  })
-  |> list.flatten()
-  |> map.from_list()
-}
 
 fn neighbour_generator(with_dim dimensions: Int) -> fn(Pos) -> Iterator(Pos) {
   case dimensions {

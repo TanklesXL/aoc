@@ -2,13 +2,13 @@ import gleam/int
 import gleam/iterator.{type Iterator}
 import gleam/string
 
-type Move {
+pub type Move {
   Up(Int)
   Down(Int)
   Forward(Int)
 }
 
-fn process_input(s: String) -> Iterator(Move) {
+pub fn parse(s: String) -> Iterator(Move) {
   s
   |> string.split("\n")
   |> iterator.from_list()
@@ -29,10 +29,10 @@ type Position {
   Position(depth: Int, horizontal: Int, aim: Int)
 }
 
-pub fn pt_1(input: String) -> Int {
+pub fn pt_1(input: Iterator(Move)) -> Int {
   let end = {
     use pos, move <- iterator.fold(
-      process_input(input),
+      input,
       Position(depth: 0, horizontal: 0, aim: 0),
     )
     case move {
@@ -45,10 +45,10 @@ pub fn pt_1(input: String) -> Int {
   end.depth * end.horizontal
 }
 
-pub fn pt_2(input: String) -> Int {
+pub fn pt_2(input: Iterator(Move)) -> Int {
   let end = {
     use pos, move <- iterator.fold(
-      process_input(input),
+      input,
       Position(depth: 0, horizontal: 0, aim: 0),
     )
     case move {
@@ -57,8 +57,11 @@ pub fn pt_2(input: String) -> Int {
       Forward(steps) ->
         Position(
           ..pos,
-          horizontal: pos.horizontal + steps,
-          depth: pos.depth + pos.aim * steps,
+          horizontal: pos.horizontal
+          + steps,
+          depth: pos.depth
+          + pos.aim
+          * steps,
         )
     }
   }

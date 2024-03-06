@@ -1,41 +1,9 @@
 import gleam/string
 import gleam/list
 import gleam/result
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 
-pub fn pt_1(input: String) -> Int {
-  input
-  |> pre_process()
-  |> execute(handle_empty(adjacent_seats), handle_full(adjacent_seats, 4))
-  |> map.fold([], fn(acc, _, row) {
-    map.fold(row, acc, fn(acc, _, spot) { [spot, ..acc] })
-  })
-  |> list.filter(fn(spot) { spot == FullSeat })
-  |> list.length()
-}
-
-pub fn pt_2(input: String) -> Int {
-  input
-  |> pre_process()
-  |> execute(handle_empty(visible_seats), handle_full(visible_seats, 5))
-  |> map.fold([], fn(acc, _, row) {
-    map.fold(row, acc, fn(acc, _, spot) { [spot, ..acc] })
-  })
-  |> list.filter(fn(spot) { spot == FullSeat })
-  |> list.length()
-}
-
-type Spot {
-  Wall
-  Floor
-  EmptySeat
-  FullSeat
-}
-
-type Seats =
-  Map(Int, Map(Int, Spot))
-
-fn pre_process(input: String) -> Seats {
+pub fn parse(input: String) -> Seats {
   input
   |> string.split("\n")
   |> list.map(fn(line) {
@@ -51,6 +19,36 @@ fn pre_process(input: String) -> Seats {
   })
   |> list.index_fold(map.new(), fn(acc, row, i) { map.insert(acc, i, row) })
 }
+
+pub fn pt_1(input: Seats) -> Int {
+  input
+  |> execute(handle_empty(adjacent_seats), handle_full(adjacent_seats, 4))
+  |> map.fold([], fn(acc, _, row) {
+    map.fold(row, acc, fn(acc, _, spot) { [spot, ..acc] })
+  })
+  |> list.filter(fn(spot) { spot == FullSeat })
+  |> list.length()
+}
+
+pub fn pt_2(input: Seats) -> Int {
+  input
+  |> execute(handle_empty(visible_seats), handle_full(visible_seats, 5))
+  |> map.fold([], fn(acc, _, row) {
+    map.fold(row, acc, fn(acc, _, spot) { [spot, ..acc] })
+  })
+  |> list.filter(fn(spot) { spot == FullSeat })
+  |> list.length()
+}
+
+pub type Spot {
+  Wall
+  Floor
+  EmptySeat
+  FullSeat
+}
+
+pub type Seats =
+  Map(Int, Map(Int, Spot))
 
 type Pos {
   Pos(row: Int, col: Int)
@@ -131,7 +129,8 @@ fn handle_empty(with_neighbours generator: NeighbourGenerator) -> SwapChecker {
   fn(p, seats) -> Bool {
     p
     |> generator(seats)
-    |> list.fold(0, sum_full_seats) == 0
+    |> list.fold(0, sum_full_seats)
+    == 0
   }
 }
 
@@ -142,7 +141,8 @@ fn handle_full(
   fn(p, seats) -> Bool {
     p
     |> generator(seats)
-    |> list.fold(0, sum_full_seats) >= threshold
+    |> list.fold(0, sum_full_seats)
+    >= threshold
   }
 }
 

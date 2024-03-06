@@ -1,27 +1,34 @@
 import gleam/int
 import gleam/list
 import gleam/pair
-import gleam/map.{type Map}
+import gleam/dict.{type Dict as Map} as map
 import gleam/string
 import gleam/option.{type Option}
 
-pub fn pt_1(input: String) -> Int {
+pub fn parse(input: String) -> Map(Int, Op) {
   input
-  |> pre_process()
+  |> string.split("\n")
+  |> list.index_fold(map.new(), fn(acc, line, i) {
+    map.insert(acc, i, to_op(line))
+  })
+}
+
+pub fn pt_1(input: Map(Int, Op)) -> Int {
+  input
   |> execute(0, 0)
   |> pair.first()
 }
 
-pub fn pt_2(input: String) -> Int {
+pub fn pt_2(input: Map(Int, Op)) -> Int {
   let assert Ok(#(acc, _)) =
     input
-    |> pre_process()
     |> permutations_with_swaps()
     |> list.find_map(fn(ops) {
       let res = execute(ops, 0, 0)
       case
         res
-        |> pair.second() == map.size(ops)
+        |> pair.second()
+        == map.size(ops)
       {
         True -> Ok(res)
         False -> Error(Nil)
@@ -31,7 +38,7 @@ pub fn pt_2(input: String) -> Int {
   acc
 }
 
-type Op {
+pub type Op {
   NOP(by: Int)
   ACC(by: Int)
   JMP(by: Int)
@@ -57,14 +64,6 @@ fn swap_jmp_and_nop(op: Option(Op)) -> Op {
     option.Some(JMP(i)) -> NOP(i)
     _ -> panic
   }
-}
-
-fn pre_process(input: String) -> Map(Int, Op) {
-  input
-  |> string.split("\n")
-  |> list.index_fold(map.new(), fn(acc, line, i) {
-    map.insert(acc, i, to_op(line))
-  })
 }
 
 fn to_op(line: String) -> Op {

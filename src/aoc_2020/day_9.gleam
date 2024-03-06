@@ -5,21 +5,21 @@ import gleam/result
 import gleam/set.{type Set}
 import gleam/string
 
-pub fn pt_1(input: String) -> Int {
+pub fn parse(input: String) -> List(Int) {
   let assert Ok(out) =
     input
     |> string.split("\n")
     |> list.try_map(int.parse)
-    |> result.map(find_not_sum_of_pair(_, 25))
+
   out
 }
 
-pub fn pt_2(input: String) -> Int {
-  let assert Ok(input) =
-    input
-    |> string.split("\n")
-    |> list.try_map(int.parse)
-  let sum = find_not_sum_of_pair(input, 25)
+pub fn pt_1(input: List(Int)) -> Int {
+  find_not_sum_of_pair(input, 25)
+}
+
+pub fn pt_2(input: List(Int)) -> Int {
+  let sum = pt_1(input)
 
   input
   |> list.split_while(fn(i) { i != sum })

@@ -10,7 +10,8 @@ fn solve(input: String, window_size: Int) -> Int {
     |> string.to_graphemes
     |> build_window(window_size)
 
-  window_size + {
+  window_size
+  + {
     do_queue_window(letters, window, window_size)
     |> pair.first()
   }
@@ -36,7 +37,8 @@ fn do_queue_window(letters: List(String), window: Queue(String), size: Int) {
   use acc, elem <- list.fold_until(letters, #(0, window))
   let #(index, window) = acc
   case
-    size == window
+    size
+    == window
     |> queue.to_list
     |> list.unique
     |> list.length
