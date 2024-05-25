@@ -1,7 +1,7 @@
 import gleam/int
 import gleam/list
-import gleam/string
 import gleam/set.{type Set}
+import gleam/string
 
 pub fn parse(input: String) -> List(List(Set(String))) {
   use s <- list.map(string.split(input, "\n\n"))

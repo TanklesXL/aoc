@@ -1,6 +1,6 @@
-import gleam/string
-import gleam/list
 import gleam/int
+import gleam/list
+import gleam/string
 
 type Array(a)
 

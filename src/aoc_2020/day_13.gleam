@@ -1,7 +1,7 @@
 import gleam/int
 import gleam/list
-import gleam/string
 import gleam/result
+import gleam/string
 
 pub fn pt_1(input: String) -> Int {
   let assert [start_time, buses] = string.split(input, "\n")

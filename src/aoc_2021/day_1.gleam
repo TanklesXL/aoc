@@ -1,5 +1,5 @@
-import gleam/list
 import gleam/int
+import gleam/list
 import gleam/string
 
 pub fn parse(s: String) -> List(Int) {

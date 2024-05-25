@@ -1,8 +1,8 @@
-import gleam/string
 import gleam/list
+import gleam/pair
 import gleam/queue.{type Queue}
 import gleam/result
-import gleam/pair
+import gleam/string
 
 fn solve(input: String, window_size: Int) -> Int {
   let #(window, letters) =

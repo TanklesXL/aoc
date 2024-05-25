@@ -57,11 +57,8 @@ pub fn pt_2(input: Iterator(Move)) -> Int {
       Forward(steps) ->
         Position(
           ..pos,
-          horizontal: pos.horizontal
-          + steps,
-          depth: pos.depth
-          + pos.aim
-          * steps,
+          horizontal: pos.horizontal + steps,
+          depth: pos.depth + pos.aim * steps,
         )
     }
   }

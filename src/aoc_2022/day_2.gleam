@@ -1,7 +1,7 @@
-import gleam/list
-import gleam/string
-import gleam/pair
 import gleam/int
+import gleam/list
+import gleam/pair
+import gleam/string
 
 fn repeatedly(with start: a, num times: Int, do f: fn(a) -> a) -> a {
   case times {
@@ -38,8 +38,8 @@ fn score(plays: #(RPS, RPS)) {
     Paper, Scissors | Scissors, Rock | Rock, Paper -> 6
     _, _ -> panic
   }
-  + // score the hand I played
-  case plays.1 {
+  // score the hand I played
+  + case plays.1 {
     Rock -> 1
     Paper -> 2
     Scissors -> 3

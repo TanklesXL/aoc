@@ -1,9 +1,9 @@
+import gleam/dict.{type Dict as Map} as map
 import gleam/int
 import gleam/list
-import gleam/pair
-import gleam/dict.{type Dict as Map} as map
-import gleam/string
 import gleam/option.{type Option}
+import gleam/pair
+import gleam/string
 
 pub fn parse(input: String) -> Map(Int, Op) {
   input

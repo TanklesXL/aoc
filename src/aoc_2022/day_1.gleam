@@ -7,7 +7,11 @@ pub fn parse(input: String) -> List(List(Int)) {
   let assert Ok(input) =
     input
     |> string.split("\n\n")
-    |> list.try_map(fn(s) { s |> string.split("\n") |> list.try_map(int.parse) })
+    |> list.try_map(fn(s) {
+      s
+      |> string.split("\n")
+      |> list.try_map(int.parse)
+    })
   input
 }
 

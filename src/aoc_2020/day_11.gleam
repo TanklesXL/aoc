@@ -1,7 +1,7 @@
-import gleam/string
+import gleam/dict.{type Dict as Map} as map
 import gleam/list
 import gleam/result
-import gleam/dict.{type Dict as Map} as map
+import gleam/string
 
 pub fn parse(input: String) -> Seats {
   input

@@ -1,6 +1,6 @@
 import gleam/int
-import gleam/string
 import gleam/list
+import gleam/string
 
 const sum = 2020
 

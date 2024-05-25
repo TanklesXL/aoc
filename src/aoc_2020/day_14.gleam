@@ -1,7 +1,7 @@
+import gleam/dict.{type Dict as Map} as map
 import gleam/int
 import gleam/list
 import gleam/string
-import gleam/dict.{type Dict as Map} as map
 
 pub fn parse(input: String) -> List(Masking) {
   let assert [_, ..data] = string.split(input, "mask = ")
@@ -36,8 +36,8 @@ fn new_masking(input: String) -> Masking {
   Masking(
     mask: mask,
     addresses: t
-    |> list.filter(fn(s) { s != "" })
-    |> list.map(new_address),
+      |> list.filter(fn(s) { s != "" })
+      |> list.map(new_address),
   )
 }
 
@@ -59,8 +59,8 @@ fn apply_value_mask(acc: Map(Int, Int), masking: Masking) -> Map(Int, Int) {
     acc,
     address.location,
     address.value
-    |> int.bitwise_or(x_as_0(masking.mask))
-    |> int.bitwise_and(x_as_1(masking.mask)),
+      |> int.bitwise_or(x_as_0(masking.mask))
+      |> int.bitwise_and(x_as_1(masking.mask)),
   )
 }
 
@@ -145,7 +145,7 @@ fn variants_from_graphemes(l: List(String), acc: List(String)) -> List(String) {
             list.map(acc, fn(s) {
               [string.append(s, "1"), string.append(s, "0")]
             })
-            |> list.flatten(),
+              |> list.flatten(),
           )
         b -> variants_from_graphemes(t, list.map(acc, string.append(_, b)))
       }

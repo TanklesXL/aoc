@@ -1,7 +1,7 @@
-import gleam/string
+import gleam/function.{compose as c}
 import gleam/list
 import gleam/set
-import gleam/function.{compose as c}
+import gleam/string
 
 fn priority(grapheme: String) {
   case <<grapheme:utf8>> {

@@ -1,7 +1,7 @@
-import gleam/string
-import gleam/list
 import gleam/bool
 import gleam/int
+import gleam/list
+import gleam/string
 
 fn digits_to_calibration(l: List(Int)) -> Int {
   let #(first, last) = case l {

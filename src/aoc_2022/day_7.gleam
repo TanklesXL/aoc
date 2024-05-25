@@ -1,9 +1,9 @@
-import gleam/string
-import gleam/list
-import gleam/int
 import gleam/dict.{type Dict as Map} as map
+import gleam/int
+import gleam/list
 import gleam/option
 import gleam/result
+import gleam/string
 
 // represent filesystem data
 pub type FS {

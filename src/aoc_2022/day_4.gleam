@@ -1,7 +1,7 @@
-import gleam/string
-import gleam/list
 import gleam/int
+import gleam/list
 import gleam/result
+import gleam/string
 
 // pair helpers
 pub fn pair_try_map(p: #(a, a), f: fn(a) -> Result(b, c)) -> Result(#(b, b), c) {

@@ -1,8 +1,8 @@
-import gleam/list
 import gleam/dict.{type Dict as Map} as map
+import gleam/int
+import gleam/list
 import gleam/result
 import gleam/string
-import gleam/int
 
 pub fn parse(input: String) -> Map(Int, Map(Int, String)) {
   input

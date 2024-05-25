@@ -1,11 +1,11 @@
-import gleam/string
-import gleam/int
-import gleam/list
 import gleam/bool
+import gleam/dict.{type Dict as Map} as map
+import gleam/int
+import gleam/iterator
+import gleam/list
 import gleam/pair
 import gleam/set.{type Set}
-import gleam/dict.{type Dict as Map} as map
-import gleam/iterator
+import gleam/string
 
 pub fn parse(input: String) -> #(Rules, Ticket, List(Ticket)) {
   let assert [prelude, your_ticket, nearby_tickets] =
@@ -130,9 +130,9 @@ fn match_nums_with_rules(ticket: Ticket, rules: Rules) -> RulesSatisfied {
       acc,
       num,
       rules
-      |> map.filter(fn(_name, ranges) { is_in_ranges(num, ranges) })
-      |> map.keys()
-      |> set.from_list(),
+        |> map.filter(fn(_name, ranges) { is_in_ranges(num, ranges) })
+        |> map.keys()
+        |> set.from_list(),
     )
   })
 }
