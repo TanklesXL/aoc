@@ -1,22 +1,13 @@
-name: test
+name: Test
 
 on:
   push:
-    branches:
-      - master
-      - main
   pull_request:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: "~> 26.2"
-          gleam-version: "nightly"
-          rebar3-version: "3"
-      - run: gleam deps download
-      - run: gleam test
-      - run: gleam format --check src test
+    uses: TanklesXL/gleam_actions/.github/workflows/test.yaml@main
+    with:
+      gleam_version: 1.1.0
+      test_node: false
+      test_erlang: true
