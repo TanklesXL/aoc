@@ -1,15 +1,13 @@
-import gleam/string
-import gleam/list
-import gleam/int
 import gleam/function
+import gleam/int
+import gleam/list
+import gleam/string
 
 pub fn parse(input: String) -> List(List(Int)) {
   let assert Ok(input) =
     input
     |> string.split("\n\n")
-    |> list.try_map(
-      function.compose(string.split(_, "\n"), list.try_map(_, int.parse)),
-    )
+    |> list.try_map(fn(s) { s |> string.split("\n") |> list.try_map(int.parse) })
   input
 }
 
