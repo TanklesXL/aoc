@@ -49,8 +49,17 @@ fn is_valid_sled_policy(policy: Policy) -> Bool {
 
 fn is_valid_toboggan_policy(policy: Policy) -> Bool {
   let extract_left_and_right = fn(l) {
-    use at_left <- result.try(list.at(l, policy.left - 1))
-    use at_right <- result.try(list.at(l, policy.right - 1))
+    use at_left <- result.try(
+      l
+      |> list.drop(policy.left - 1)
+      |> list.first,
+    )
+
+    use at_right <- result.try(
+      l
+      |> list.drop(policy.right - 1)
+      |> list.first,
+    )
     Ok([at_left, at_right])
   }
 

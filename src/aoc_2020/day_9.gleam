@@ -82,6 +82,6 @@ fn sum_until(
 fn sum_min_and_max(l: List(Int)) -> Result(Int, Nil) {
   let l = list.sort(l, int.compare)
   use min <- result.try(list.first(l))
-  use max <- result.try(list.at(l, list.length(l) - 1))
+  use max <- result.try(list.last(l))
   Ok(min + max)
 }

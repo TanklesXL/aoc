@@ -22,19 +22,18 @@ pub fn parse(input: String) -> #(Rules, Ticket, List(Ticket)) {
 
 pub fn pt_1(input: #(Rules, Ticket, List(Ticket))) -> Int {
   let #(rules, _your_ticket, other_tickets) = input
+  let tickets =
+    other_tickets
+    |> iterator.from_list
+    |> iterator.map(match_nums_with_rules(_, rules))
+    |> iterator.filter(is_invalid)
 
-  other_tickets
-  |> iterator.from_list
-  |> iterator.map(match_nums_with_rules(_, rules))
-  |> iterator.filter(is_invalid)
-  |> iterator.fold(0, fn(acc, ticket_map) {
-    map.fold(ticket_map, acc, fn(acc, name, satisfied) {
-      case set.size(satisfied) {
-        0 -> acc + name
-        _ -> acc
-      }
-    })
-  })
+  use acc, ticket_map <- iterator.fold(tickets, 0)
+  use acc, name, satisfied <- map.fold(ticket_map, acc)
+  case set.size(satisfied) {
+    0 -> acc + name
+    _ -> acc
+  }
 }
 
 pub fn pt_2(input: #(Rules, Ticket, List(Ticket))) -> Int {
@@ -42,16 +41,16 @@ pub fn pt_2(input: #(Rules, Ticket, List(Ticket))) -> Int {
 
   let lists_and_matches = only_valid_tickets(other_tickets, rules)
 
-  iterator.range(0, map.size(rules) - 1)
-  |> iterator.map(fn(c) { #(c, potential_column_names(lists_and_matches, c)) })
-  |> iterator.to_list
-  |> list.sort(fn(a, b) {
-    int.compare(set.size(pair.second(a)), set.size(pair.second(b)))
-  })
+  list.range(0, map.size(rules) - 1)
+  |> list.map(fn(c) { #(c, potential_column_names(lists_and_matches, c)) })
+  |> list.sort(fn(a, b) { int.compare(set.size(a.1), set.size(b.1)) })
   |> most_constrained_variable(map.new())
   |> map.filter(fn(_name, val) { string.contains(val, "departure") })
   |> map.fold(1, fn(acc, column, _rule_name) {
-    let assert Ok(x) = list.at(your_ticket, column)
+    let assert Ok(x) =
+      your_ticket
+      |> list.drop(column)
+      |> list.first
     acc * x
   })
 }
@@ -155,12 +154,13 @@ fn potential_column_names(
   matches: List(#(List(Int), RulesSatisfied)),
   column: Int,
 ) -> Set(String) {
-  list.fold(matches, set.from_list(rule_names), fn(acc, match) {
-    let #(l, satisfied) = match
-    let assert Ok(key) = list.at(l, column)
-    let assert Ok(rules_satisfied) = map.get(satisfied, key)
-    set.intersection(acc, rules_satisfied)
-  })
+  use acc, #(l, satisfied) <- list.fold(matches, set.from_list(rule_names))
+  let assert Ok(key) =
+    l
+    |> list.drop(column)
+    |> list.first
+  let assert Ok(rules_satisfied) = map.get(satisfied, key)
+  set.intersection(acc, rules_satisfied)
 }
 
 // note: requires list to be sorted in increasing order by number of potential names for that column

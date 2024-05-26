@@ -11,7 +11,7 @@ pub fn parse(input: String) -> List(Int) {
 }
 
 pub fn pt_1(input: List(Int)) -> Int {
-  list.at(input, list.length(input) - 1)
+  list.last(input)
   |> result.unwrap(0)
 }
 

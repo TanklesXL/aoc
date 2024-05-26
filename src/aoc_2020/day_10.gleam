@@ -34,7 +34,7 @@ fn setup(l: List(Int)) -> List(Int) {
 }
 
 fn last_or_zero(l: List(Int)) -> Int {
-  let assert Ok(last) = list.at(l, list.length(l) - 1)
+  let assert Ok(last) = list.last(l)
   last
 }
 
