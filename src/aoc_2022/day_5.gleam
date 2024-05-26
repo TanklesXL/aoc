@@ -1,10 +1,8 @@
 import gleam/dict.{type Dict as Map} as map
-import gleam/function.{compose as c}
 import gleam/int
 import gleam/iterator.{type Iterator}
 import gleam/list
 import gleam/option.{Some}
-import gleam/pair
 import gleam/result
 import gleam/string
 
@@ -59,7 +57,7 @@ fn solve(input, f) {
     iterator.fold(moves, stacks, f)
     |> map.to_list()
     |> list.sort(fn(p1, p2) { int.compare(p1.0, p2.0) })
-    |> list.try_map(c(pair.second, list.first))
+    |> list.try_map(fn(p) { list.first(p.1) })
 
   string.concat(firsts)
 }

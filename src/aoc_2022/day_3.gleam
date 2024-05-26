@@ -1,4 +1,3 @@
-import gleam/function.{compose as c}
 import gleam/list
 import gleam/set
 import gleam/string
@@ -38,7 +37,11 @@ pub fn pt_2(input: String) {
     input
     |> string.split("\n")
     // get character set for each line
-    |> list.map(c(string.to_graphemes, set.from_list))
+    |> list.map(fn(s) {
+      s
+      |> string.to_graphemes
+      |> set.from_list
+    })
     // split into chunks of 3
     |> list.sized_chunk(3)
     // set intersection of each group

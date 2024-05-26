@@ -1,4 +1,3 @@
-import gleam/function
 import gleam/int
 import gleam/list
 import gleam/result
@@ -36,7 +35,10 @@ fn process_passport(passport: String) -> List(#(String, String)) {
 }
 
 fn has_keys(passport: List(#(String, String)), keys: List(String)) -> Bool {
-  list.all(keys, function.compose(list.key_find(passport, _), result.is_ok))
+  list.all(keys, fn(x) {
+    list.key_find(passport, x)
+    |> result.is_ok
+  })
 }
 
 fn validate_as_int(s: String, min: Int, max: Int) -> Bool {
