@@ -2,6 +2,12 @@ import gleam/list
 import gleam/set
 import gleam/string
 
+pub fn parse(input: String) -> List(List(String)) {
+  input
+  |> string.split("\n")
+  |> list.map(string.to_graphemes)
+}
+
 fn priority(grapheme: String) {
   case <<grapheme:utf8>> {
     // lowercase a (ascii 97) to z (ascii 122) is priority 1 to 26
@@ -12,12 +18,7 @@ fn priority(grapheme: String) {
   }
 }
 
-pub fn pt_1(input: String) {
-  // split into lines
-  let lines =
-    input
-    |> string.split("\n")
-    |> list.map(string.to_graphemes)
+pub fn pt_1(lines: List(List(String))) {
   // collect for all lines
   use acc, line <- list.fold(lines, 0)
   // split characters into two halves
@@ -31,17 +32,12 @@ pub fn pt_1(input: String) {
   acc + priority(grapheme)
 }
 
-pub fn pt_2(input: String) {
+pub fn pt_2(lines: List(List(String))) {
   // split into lines
   let assert Ok(groups) =
-    input
-    |> string.split("\n")
+    lines
     // get character set for each line
-    |> list.map(fn(s) {
-      s
-      |> string.to_graphemes
-      |> set.from_list
-    })
+    |> list.map(set.from_list)
     // split into chunks of 3
     |> list.sized_chunk(3)
     // set intersection of each group
