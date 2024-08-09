@@ -48,7 +48,7 @@ fn permutations_with_swaps(ops: Map(Int, Op)) -> List(Map(Int, Op)) {
   ops
   |> map.filter(filter_only_jmp_and_nop)
   |> map.keys()
-  |> list.map(map.update(ops, _, swap_jmp_and_nop))
+  |> list.map(map.upsert(ops, _, swap_jmp_and_nop))
 }
 
 fn filter_only_jmp_and_nop(_name: Int, op: Op) -> Bool {

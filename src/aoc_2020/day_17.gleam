@@ -157,7 +157,7 @@ fn expand_world(space: Space, neighbours: fn(Pos) -> Iterator(Pos)) -> Space {
   |> iterator.to_list()
   |> set.from_list()
   |> set.fold(space, fn(acc, pos) {
-    map.update(acc, pos, option.unwrap(_, Inactive))
+    map.upsert(acc, pos, option.unwrap(_, Inactive))
   })
 }
 

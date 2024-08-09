@@ -1,6 +1,6 @@
 name = "advent_of_code"
 version = "0.1.0"
-gleam = "~> 1.0"
+gleam = "~> 1.4"
 
 # Fill out these fields if you intend to generate HTML documentation or publish
 # your project to the Hex package manager.
@@ -11,9 +11,44 @@ gleam = "~> 1.0"
 # links = [{ title = "Website", href = "https://gleam.run" }]
 
 [dependencies]
-gleam_stdlib = "~> 0.36"
-gleam_json = "~> 1.0"
+gleam_stdlib = "~> 0.39"
+gleam_json = "~> 2.0"
 
 [dev-dependencies]
-gleeunit = "~> 1.0"
-gladvent = "~> 0.7"
+gladvent = "~> 1.0"
+gleeunit = ">= 1.2.0 and < 2.0.0"
+
+[gladvent.2020]
+1 = { pt_1 = 972576, pt_2 = 199300880 }
+2 = { pt_1 = 546, pt_2 = 275 }
+3 = { pt_1 = 265, pt_2 = 3154761400 }
+4 = { pt_1 = 233, pt_2 = 111 }
+5 = { pt_1 = 801, pt_2 = 597 }
+6 = { pt_1 = 6457, pt_2 = 3260 }
+7 = { pt_1 = 139, pt_2 = 58175 }
+8 = { pt_1 = 1859, pt_2 = 1235 }
+9 = { pt_1 = 393911906, pt_2 = 59341885 }
+10 = { pt_1 = 1656, pt_2 = 56693912375296 }
+11 = { pt_1 = 2238, pt_2 = 2013 }
+13 = { pt_1 = 2092, pt_2 = 702970661767766 }
+14 = { pt_1 = 9628746976360, pt_2 = 4574598714592 }
+15 = { pt_1 = 959, pt_2 = 116590 }
+16 = { pt_1 = 23115, pt_2 = 239727793813 }
+17 = { pt_1 = 252, pt_2 = 2160 }
+
+[gladvent.2021]
+1 = { pt_1 = 1624, pt_2 = 1653 }
+2 = { pt_1 = 2117664, pt_2 = 2073416724 }
+3 = { pt_1 = 2498354, pt_2 = 3277956 }
+
+[gladvent.2022]
+1 = { pt_1 = 67450, pt_2 = 199357 }
+2 = { pt_1 = 15691, pt_2 = 12989 }
+3 = { pt_1 = 7824, pt_2 = 2798 }
+4 = { pt_1 = 485, pt_2 = 857 }
+5 = { pt_1 = "RTGWZTHLD", pt_2 = "STHGRZZFR" }
+6 = { pt_1 = 1480, pt_2 = 2746 }
+7 = { pt_1 = 1391690, pt_2 = 5469168 }
+
+[gladvent.2023]
+1 = { pt_1 = 55123, pt_2 = 55260 }

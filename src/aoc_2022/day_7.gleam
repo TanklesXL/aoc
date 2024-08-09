@@ -57,7 +57,7 @@ fn dir_sizes(l: List(#(List(String), List(FS)))) {
   // for each new path, calculate the total size, checking the size of any subdirs
   use tree, elem <- list.fold(sorted, map.new())
   use tree, fs <- list.fold(elem.1, tree)
-  use size <- map.update(tree, elem.0)
+  use size <- map.upsert(tree, elem.0)
   let cum_size = option.unwrap(size, 0)
   cum_size
   + case fs {

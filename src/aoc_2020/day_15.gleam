@@ -69,5 +69,5 @@ fn speak(acc: #(Int, Map(Int, Spoken)), step: Int) -> #(Int, Map(Int, Spoken)) {
     }
   }
 
-  #(to_update, map.update(when_inserted, to_update, updater))
+  #(to_update, map.upsert(when_inserted, to_update, updater))
 }

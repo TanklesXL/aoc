@@ -74,7 +74,7 @@ pub fn pt_1(input: #(Map(Int, List(String)), Iterator(Move))) {
   use stacks <- repeatedly(with: stacks, num: move.count)
   let assert Ok([val, ..rest]) = map.get(stacks, move.from)
   let stacks = map.insert(stacks, move.from, rest)
-  use stack <- map.update(stacks, move.to)
+  use stack <- map.upsert(stacks, move.to)
   let assert Some(stack) = stack
   [val, ..stack]
 }
@@ -86,7 +86,7 @@ pub fn pt_2(input: #(Map(Int, List(String)), Iterator(Move))) {
     |> map.get(move.from)
     |> result.map(list.split(_, at: move.count))
   let stacks = map.insert(stacks, move.from, rest)
-  use stack <- map.update(stacks, move.to)
+  use stack <- map.upsert(stacks, move.to)
   let assert Some(stack) = stack
   list.append(top, stack)
 }

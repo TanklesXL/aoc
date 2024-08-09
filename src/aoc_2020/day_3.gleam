@@ -28,11 +28,8 @@ pub fn pt_1(input: Map(Int, Map(Int, String))) -> Int {
 }
 
 const pt_2_slopes = [
-  Slope(right: 1, down: 1),
-  Slope(right: 3, down: 1),
-  Slope(right: 5, down: 1),
-  Slope(right: 7, down: 1),
-  Slope(right: 1, down: 2),
+  Slope(right: 1, down: 1), Slope(right: 3, down: 1), Slope(right: 5, down: 1),
+  Slope(right: 7, down: 1), Slope(right: 1, down: 2),
 ]
 
 pub fn pt_2(input: Map(Int, Map(Int, String))) -> Int {
