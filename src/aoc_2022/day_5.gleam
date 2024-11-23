@@ -1,10 +1,10 @@
 import gleam/dict.{type Dict as Map} as map
 import gleam/int
-import gleam/iterator.{type Iterator}
 import gleam/list
 import gleam/option.{Some}
 import gleam/result
 import gleam/string
+import gleam/yielder.{type Yielder as Iterator} as iterator
 
 pub fn parse(input: String) -> #(Map(Int, List(String)), Iterator(Move)) {
   let assert Ok(#(stacks, moves)) = string.split_once(input, "\n\n")

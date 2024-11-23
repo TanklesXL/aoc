@@ -25,7 +25,7 @@ type Policy {
 
 fn to_policy(policy: String) -> Result(Policy, Nil) {
   let assert [range, letter, code] = string.split(policy, " ")
-  let letter = string.drop_right(letter, 1)
+  let letter = string.drop_end(letter, 1)
   use #(left, right) <- result.try(string.split_once(range, "-"))
   use left <- result.try(int.parse(left))
   use right <- result.try(int.parse(right))

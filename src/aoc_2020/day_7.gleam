@@ -1,10 +1,10 @@
 import gleam/bool
 import gleam/dict.{type Dict as Map} as map
 import gleam/int
-import gleam/iterator
 import gleam/list
 import gleam/set.{type Set}
 import gleam/string
+import gleam/yielder as iterator
 
 pub fn parse(input: String) -> Bags {
   input

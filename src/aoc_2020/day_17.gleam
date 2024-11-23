@@ -1,9 +1,9 @@
 import gleam/dict.{type Dict as Map} as map
-import gleam/iterator.{type Iterator}
 import gleam/list
 import gleam/option
 import gleam/set
 import gleam/string
+import gleam/yielder.{type Yielder as Iterator} as iterator
 
 pub fn parse(input: String) -> Space {
   use acc, row, i <- list.index_fold(string.split(input, "\n"), map.new())

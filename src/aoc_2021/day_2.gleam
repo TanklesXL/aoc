@@ -1,6 +1,6 @@
 import gleam/int
-import gleam/iterator.{type Iterator}
 import gleam/string
+import gleam/yielder.{type Yielder as Iterator} as iterator
 
 pub type Move {
   Up(Int)
