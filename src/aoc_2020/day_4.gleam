@@ -57,11 +57,11 @@ fn is_valid_passport(passport: List(#(String, String))) -> Bool {
       case string.slice(hgt, -2, 2) {
         "cm" ->
           hgt
-          |> string.drop_right(2)
+          |> string.drop_end(2)
           |> validate_as_int(150, 193)
         "in" ->
           hgt
-          |> string.drop_right(2)
+          |> string.drop_end(2)
           |> validate_as_int(59, 76)
         _ -> False
       }

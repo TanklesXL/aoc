@@ -129,7 +129,7 @@ fn binarize(num: Int, acc: List(Int)) -> String {
       [num % 2, ..acc]
       |> list.map(int.to_string)
       |> string.join("")
-      |> string.pad_left(to: 36, with: "0")
+      |> string.pad_start(to: 36, with: "0")
     False -> binarize(num / 2, [num % 2, ..acc])
   }
 }

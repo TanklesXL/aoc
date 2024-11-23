@@ -47,7 +47,7 @@ fn words(s: String, acc: List(String)) -> List(String) {
       first
     }
   }
-  words(string.drop_left(s, 1), [char, ..acc])
+  words(string.drop_start(s, 1), [char, ..acc])
 }
 
 pub fn pt_1(input: String) {
