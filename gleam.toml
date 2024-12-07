@@ -13,10 +13,11 @@ gleam = "~> 1.4"
 [dependencies]
 gleam_stdlib = "~> 0.39"
 gleam_json = "~> 2.0"
-gladvent = "~> 2.0"
+gladvent = ">=2.1.0 and < 3.0.0"
 gleam_yielder = ">= 1.0.0 and < 2.0.0"
 tote = ">= 1.0.2 and < 2.0.0"
 nibble = ">= 1.1.1 and < 2.0.0"
+gleam_community_maths = ">= 1.1.1 and < 2.0.0"
 
 [dev-dependencies]
 gleeunit = ">= 1.2.0 and < 2.0.0"
@@ -61,3 +62,4 @@ gleeunit = ">= 1.2.0 and < 2.0.0"
 2 = { pt_1 = 282, pt_2 = 349 }
 3 = { pt_1 = 166905464, pt_2 = 72948684 }
 4 = { pt_1 = 2718, pt_2 = 2046 }
+7 = { pt_1 = 3119088655389, pt_2 = 264184041398847 }
