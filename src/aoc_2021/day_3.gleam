@@ -1,17 +1,9 @@
+import gleam/dict
 import gleam/int
 import gleam/list
+import gleam/pair
+import gleam/result
 import gleam/string
-
-type Array(a)
-
-@external(erlang, "array", "from_list")
-fn from_list(l: List(a)) -> Array(a)
-
-@external(erlang, "array", "to_list")
-fn to_list(a: Array(a)) -> List(a)
-
-@external(erlang, "array", "get")
-fn get(i: Int, a: Array(a)) -> a
 
 pub fn parse(input: String) -> List(List(Int)) {
   let assert Ok(input) =
@@ -56,29 +48,37 @@ fn least_common_bit(l: List(Int)) -> Int {
 }
 
 fn sieve(
-  input: List(Array(a)),
+  input: List(dict.Dict(Int, a)),
   index: Int,
   finding: fn(List(a)) -> a,
 ) -> Result(List(a), Nil) {
   case input {
     [] -> Error(Nil)
 
-    [res] -> Ok(to_list(res))
+    [res] ->
+      Ok(
+        res
+        |> dict.to_list
+        |> list.sort(fn(a, b) { int.compare(a.0, b.0) })
+        |> list.map(pair.second),
+      )
 
     _ -> {
-      let to_find =
-        input
-        |> list.map(get(index, _))
-        |> finding()
+      use to_find <- result.try(list.try_map(input, dict.get(_, index)))
+
       input
-      |> list.filter(fn(line) { get(index, line) == to_find })
+      |> list.filter(fn(line) { dict.get(line, index) == Ok(finding(to_find)) })
       |> sieve(index + 1, finding)
     }
   }
 }
 
 pub fn pt_2(input: List(List(Int))) -> Int {
-  let input = list.map(input, from_list)
+  let input = {
+    use x <- list.map(input)
+    use acc, elem, idx <- list.index_fold(x, dict.new())
+    dict.insert(acc, idx, elem)
+  }
 
   let assert Ok(oxygen) = sieve(input, 0, most_common_bit)
   let assert Ok(oxygen) = int.undigits(oxygen, 2)
