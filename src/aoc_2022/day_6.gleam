@@ -1,4 +1,4 @@
-import gleam/deque.{type Deque as Queue} as queue
+import gleam/deque.{type Deque}
 import gleam/list
 import gleam/pair
 import gleam/result
@@ -12,7 +12,7 @@ fn solve(input: String, window_size: Int) -> Int {
 
   window_size
   + {
-    do_queue_window(letters, window, window_size)
+    do_deque_window(letters, window, window_size)
     |> pair.first()
   }
 }
@@ -20,10 +20,10 @@ fn solve(input: String, window_size: Int) -> Int {
 fn build_window(
   letters: List(String),
   window_size: Int,
-) -> #(Queue(String), List(String)) {
-  use acc <- repeatedly(#(queue.new(), letters), window_size)
+) -> #(Deque(String), List(String)) {
+  use acc <- repeatedly(#(deque.new(), letters), window_size)
   let assert [first, ..rest] = acc.1
-  #(queue.push_back(acc.0, first), rest)
+  #(deque.push_back(acc.0, first), rest)
 }
 
 fn repeatedly(with start: a, num times: Int, do f: fn(a) -> a) -> a {
@@ -33,13 +33,13 @@ fn repeatedly(with start: a, num times: Int, do f: fn(a) -> a) -> a {
   }
 }
 
-fn do_queue_window(letters: List(String), window: Queue(String), size: Int) {
+fn do_deque_window(letters: List(String), window: Deque(String), size: Int) {
   use acc, elem <- list.fold_until(letters, #(0, window))
   let #(index, window) = acc
   case
     size
     == window
-    |> queue.to_list
+    |> deque.to_list
     |> list.unique
     |> list.length
   {
@@ -47,9 +47,9 @@ fn do_queue_window(letters: List(String), window: Queue(String), size: Int) {
     False -> {
       let assert Ok(window) =
         window
-        |> queue.pop_front()
+        |> deque.pop_front()
         |> result.map(pair.second)
-        |> result.map(queue.push_back(_, elem))
+        |> result.map(deque.push_back(_, elem))
       list.Continue(#(index + 1, window))
     }
   }

@@ -1,3 +1,4 @@
+import aoc/shared
 import gleam/dict
 import gleam/int
 import gleam/list
@@ -21,12 +22,12 @@ pub fn pt_1(input: List(List(Int))) -> Int {
     |> list.transpose()
     |> list.map(most_common_bit)
 
-  let assert Ok(gamma) = int.undigits(gamma_list, 2)
+  let assert Ok(gamma) = shared.undigits(gamma_list, 2)
 
   let assert Ok(epsilon) =
     gamma_list
     |> list.map(fn(i) { 1 - i })
-    |> int.undigits(2)
+    |> shared.undigits(2)
 
   gamma * epsilon
 }
@@ -81,10 +82,10 @@ pub fn pt_2(input: List(List(Int))) -> Int {
   }
 
   let assert Ok(oxygen) = sieve(input, 0, most_common_bit)
-  let assert Ok(oxygen) = int.undigits(oxygen, 2)
+  let assert Ok(oxygen) = shared.undigits(oxygen, 2)
 
   let assert Ok(co2) = sieve(input, 0, least_common_bit)
-  let assert Ok(co2) = int.undigits(co2, 2)
+  let assert Ok(co2) = shared.undigits(co2, 2)
 
   oxygen * co2
 }

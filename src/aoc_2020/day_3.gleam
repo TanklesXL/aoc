@@ -63,7 +63,7 @@ fn count_trees(
   case
     input
     |> map.get(current.row_i)
-    |> result.then(fn(row) { map.get(row, current.column_i % map.size(row)) })
+    |> result.try(fn(row) { map.get(row, current.column_i % map.size(row)) })
   {
     Ok(space) -> {
       let found = case space {

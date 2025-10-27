@@ -20,8 +20,8 @@ pub fn parse(input: String) -> List(#(#(Int, Int), #(Int, Int))) {
     use line <- list.try_map(string.split(input, "\n"))
     line
     |> string.split_once(",")
-    |> result.then(pair_try_map(_, string.split_once(_, "-")))
-    |> result.then(pair_try_map(_, pair_try_map(_, int.parse)))
+    |> result.try(pair_try_map(_, string.split_once(_, "-")))
+    |> result.try(pair_try_map(_, pair_try_map(_, int.parse)))
   }
   ranges
 }

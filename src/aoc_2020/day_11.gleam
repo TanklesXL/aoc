@@ -76,7 +76,7 @@ fn adjacent_seats(to p: Pos, in seats: Seats) -> List(Spot) {
   |> list.map(fn(q: Pos) {
     seats
     |> map.get(q.row)
-    |> result.then(map.get(_, q.col))
+    |> result.try(map.get(_, q.col))
     |> result.unwrap(Wall)
   })
 }
@@ -94,7 +94,7 @@ fn go_until_seat(dest: Pos, origin: Pos, seats: Seats) -> Spot {
   case
     seats
     |> map.get(dest.row)
-    |> result.then(map.get(_, dest.col))
+    |> result.try(map.get(_, dest.col))
     |> result.unwrap(Wall)
   {
     Floor -> {

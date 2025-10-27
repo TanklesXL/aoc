@@ -25,7 +25,7 @@ pub fn pt_2(input: List(Int)) -> Int {
   |> list.split_while(fn(i) { i != sum })
   |> pair.first()
   |> sum_ranges_until(sum)
-  |> result.then(sum_min_and_max)
+  |> result.try(sum_min_and_max)
   |> result.unwrap(0)
 }
 

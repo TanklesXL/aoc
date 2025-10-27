@@ -1,3 +1,4 @@
+import aoc/shared
 import gleam/int
 import gleam/list
 import gleam/string
@@ -29,9 +30,9 @@ pub fn pt_2(input: List(#(Int, List(Int)))) {
 }
 
 fn concat(front: Int, back: Int) -> Int {
-  let assert Ok(front) = int.digits(front, 10)
+  let assert Ok(front) = shared.digits(front, 10)
   let assert Ok(back) = int.digits(back, 10)
-  let assert Ok(smushed) = list.flatten([front, back]) |> int.undigits(10)
+  let assert Ok(smushed) = list.flatten([front, back]) |> shared.undigits(10)
   smushed
 }
 
