@@ -1,4 +1,3 @@
-import gleam/function
 import gleam/int
 import gleam/list
 import gleam/string
@@ -28,7 +27,7 @@ pub fn pt_2(input: List(List(Int))) {
 fn calories(food: List(List(Int)), top count: Int) -> Int {
   food
   |> list.map(int.sum)
-  |> list.sort(function.flip(int.compare))
+  |> list.sort(fn(a, b) { int.compare(b, a) })
   |> list.take(count)
   |> int.sum
 }

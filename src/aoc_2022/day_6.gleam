@@ -1,6 +1,6 @@
+import gleam/deque.{type Deque as Queue} as queue
 import gleam/list
 import gleam/pair
-import gleam/queue.{type Queue}
 import gleam/result
 import gleam/string
 
